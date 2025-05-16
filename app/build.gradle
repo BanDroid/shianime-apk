@@ -48,7 +48,11 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
-    
+
     // https://github.com/Bhuvaneshw/CrashHandler
     implementation libs.crash.handler
+    // https://github.com/Bhuvaneshw/Task
+    implementation libs.cotask
+    implementation libs.threadtask
+    implementation libs.jtask
 }
