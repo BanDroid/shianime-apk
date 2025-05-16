@@ -3,6 +3,7 @@ package id.my.shianime.fragment.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.net.URL
 
 class FragmentViewModel : ViewModel() {
     private val _page = MutableLiveData<Int>(1)
@@ -15,5 +16,6 @@ class FragmentViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> get() = _loading
     fun toggleLoading() {
         _loading.value = !_loading.value!!
+        URL("").readText()
     }
 }
