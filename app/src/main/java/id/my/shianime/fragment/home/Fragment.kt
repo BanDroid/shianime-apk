@@ -20,13 +20,12 @@ class Fragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var vm: FragmentViewModel
-    private val shianime = Shianime()
+    private var shianime: Shianime = Shianime()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -42,7 +41,9 @@ class Fragment : Fragment() {
                 domStorageEnabled = true
             }
             wv.webViewClient = CustomClient()
-            wv.loadUrl(shianime.url.toExternalForm())
+            shianime.getCurrentURL { url ->
+                wv.loadUrl(url.toExternalForm())
+            }
         }
     }
 
@@ -54,12 +55,12 @@ class Fragment : Fragment() {
     inner class CustomClient() : WebViewClient() {
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
-            vm.toggleLoading()
+//            vm.toggleLoading()
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            vm.toggleLoading()
+//            vm.toggleLoading()
         }
 
         override fun onReceivedError(
