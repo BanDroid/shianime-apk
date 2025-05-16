@@ -2,4 +2,4 @@
 
 website nonton anime.
 
-- website: (shianime.net)[https://shianime.net]
+- website: [shianime.net](https://shianime.net)
