@@ -12,8 +12,10 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import id.my.shianime.core.Shianime
 import id.my.shianime.databinding.FragmentHomeBinding
+import id.my.shianime.helpers.isNetworkAvailable
 
 class Fragment : Fragment() {
 
@@ -41,9 +43,7 @@ class Fragment : Fragment() {
                 domStorageEnabled = true
             }
             wv.webViewClient = CustomClient()
-            shianime.getCurrentURL { url ->
-                wv.loadUrl(url.toExternalForm())
-            }
+            fetchPage(wv)
         }
     }
 
@@ -52,15 +52,35 @@ class Fragment : Fragment() {
         _binding = null
     }
 
+    private fun fetchPage(wv: WebView) {
+        if (isNetworkAvailable(requireContext())) {
+            shianime.getCurrentURL { url ->
+                wv.loadUrl(url.toExternalForm())
+            }
+        } else {
+            val snackbar =
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    "You are currently offline",
+                    Snackbar.LENGTH_INDEFINITE
+                )
+            snackbar.setAction("Retry") {
+                snackbar.dismiss()
+                fetchPage(wv)
+            }
+            snackbar.show()
+        }
+    }
+
     inner class CustomClient() : WebViewClient() {
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
-//            vm.toggleLoading()
+            vm.toggleLoading()
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-//            vm.toggleLoading()
+            vm.toggleLoading()
         }
 
         override fun onReceivedError(
